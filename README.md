@@ -36,3 +36,15 @@ void add_node(struct node *first)
     tofile(a);
     first->next=NULL;
 }
+void add_node_file(struct node *first,string a)
+    {
+    while(first->next!=NULL)
+    {
+        first=first->next;
+    }
+    first->next=(struct node*)malloc(sizeof(struct node));
+    first->prev=first;
+    first=first->next;
+    strcpy(first->song,a.c_str());
+    first->next=NULL;
+}
