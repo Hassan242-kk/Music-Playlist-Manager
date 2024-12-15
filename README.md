@@ -48,3 +48,46 @@ void add_node_file(struct node *first,string a)
     strcpy(first->song,a.c_str());
     first->next=NULL;
 }
+void delete_file(char a[])
+{
+    fstream f1,f2;
+    string line;
+    int x=0;
+    f1.open("playlist.txt",ios::in|ios::out);
+    f2.open("temp.txt",ios::in|ios::out);
+    while(!f1.eof())
+    {
+        getline(f1,line);
+        if(strcmp(a,line.c_str())!=0)
+        f2<<line<<endl;
+        else if (strcmp(a,line.c_str())==0)
+        x=1;
+    }
+    f1.close();
+    f2.close();
+    remove("playlist.txt");
+    rename("temp.txt","playlist.txt");
+    if(x==0)
+        {
+        cout << "There is no song with name you entered." << endl;
+        }
+    else
+        {
+        cout << "Song has been deleted." << endl;
+        }
+    }
+
+
+void del_node(struct node *first)
+{
+    while((first->next)->next!=NULL)
+    {
+        first=first->next;
+    }
+    struct node *temp;
+    temp=(first->next)->next;
+    first->next=NULL;
+    free(temp);
+   cout<<"Deleted"<<endl;
+}
+
