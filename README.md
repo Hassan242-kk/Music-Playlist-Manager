@@ -90,4 +90,25 @@ void del_node(struct node *first)
     free(temp);
    cout<<"Deleted"<<endl;
 }
+void printlist(struct node *first)
+{
+    cout<<"\nPlaylist Name- ";
+    while(first->next!=NULL)
+    {
+        cout<<first->song<<endl;
+        first=first->next;
+    }
+    cout<<first->song<<endl;
+}
 
+void count_nodes(struct node *first)
+{
+    int i=0;
+    while (first->next!=NULL)
+    {
+        first=first->next;
+        i++;
+    }
+    i++;
+    cout<<"\nTotal songs-  "<<i-1<<endl;
+}
