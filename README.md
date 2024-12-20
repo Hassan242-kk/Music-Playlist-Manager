@@ -112,3 +112,54 @@ void count_nodes(struct node *first)
     i++;
     cout<<"\nTotal songs-  "<<i-1<<endl;
 }
+struct node  *del_pos(struct node *pointer, int pos)
+{
+
+           struct node *n1,*prev1,*temp;
+           prev1= ( struct node *)malloc(sizeof(node));
+           temp= (struct node *)malloc(sizeof(node));
+           int i=0;
+
+           if(pos==1)
+           {
+                temp=pointer;
+                delete_file(temp->song);
+                pointer=pointer->next;
+                pointer->prev = NULL;
+                free(temp);
+                 printf("\nThe list is updated\nUse the display function to check\n");
+                 return pointer;
+           }
+           while(i<pos-1)
+           {
+               prev1=pointer;
+               pointer=pointer->next;
+                i++;
+
+            }
+
+            if(pointer->next==NULL)
+            {
+
+            temp=pointer;
+            delete_file(temp->song);
+
+            prev1->next->prev=NULL;
+            prev1->next=NULL;
+
+            free(temp);
+             printf("\nThe list is updated\nUse the display function to check\n");
+          }
+
+            else
+            {
+            temp=pointer;
+            delete_file(temp->song);
+            prev1->next=temp->next;
+            temp->next->prev=prev1;
+            free(temp);
+             printf("\nThe list is updated\nUse the display function to check\n");
+            }
+
+}
+
