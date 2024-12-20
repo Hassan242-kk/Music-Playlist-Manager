@@ -154,4 +154,51 @@ struct node  *del_pos(struct node *pointer, int pos)
             }
 
 }
+void search1(struct node *first)
+{
+    char song[100];
+    cout<<"\n\a\a\a\aEnter song To be Searched- ";
+    scanf("%s",&song);
+    int flag=0;
+
+while(first!=NULL)
+    {
+        if(strcmp(first->song,song)==0)
+        {
+            cout<<"\n\a\a\a\a#Song Found"<<endl;
+            flag++;
+            break;
+        }
+        else
+        {
+            first=first->next;
+        }
+    }
+    if(flag==0)
+    {
+        cout<<"\n\a\a\a\a#Song Not found"<<endl;
+    }
+}
+
+void create()
+{
+    top = NULL;
+}
+
+void push(char data[])
+{
+    if (top == NULL)
+    {
+        top =(struct node *)malloc(sizeof(struct node));
+        top->next = NULL;
+        strcpy(top->song,data);
+    }
+    else if (strcmp(top->song,data)!=0)
+    {
+        temp =(struct node *)malloc(sizeof(struct node));
+        temp->next = top;
+        strcpy(temp->song,data);
+        top = temp;
+    }
+}
 
