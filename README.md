@@ -12,6 +12,16 @@ struct node
     struct node *next;
     struct node *prev;
 }*top,*temp,*top1;
+struct TreeNode {
+    char song[100];
+    TreeNode* left;
+    TreeNode* right;
+
+TreeNode(const char* songName) {
+        strcpy(song, songName);
+        left = right = nullptr;
+    }
+};
 void tofile(char a[])
 {
     fstream f1;
