@@ -277,6 +277,51 @@ void display()
 void recent(){
     display();
 }
+void search1(struct node* first) {
+    char song[100];
+    cout << "\nEnter song To be Searched- ";
+    scanf("%s", &song);
+
+    if (searchSongInBST(song)) {
+        cout << "\n#Song Found in BST" << endl;
+    }
+    else {
+        cout << "\n#Song Not found" << endl;
+    }
+}
+
+void play(struct node* first) {
+    char song[100];
+    printlist(first);
+    cout << "\nChoose song you wish to play- ";
+    scanf("%s", song);
+    int flag = 0;
+
+ while (first != NULL) {
+        if (strcmp(first->song, song) == 0) {
+            cout << "\n=>Now Playing......" << song << endl;
+            flag++;
+            push(song);
+            break;
+        }
+        else {
+            first = first->next;
+        }
+    }
+    if (flag == 0) {
+        cout << "\n#Song Not found" << endl;
+    }
+}
+void addplaylist(struct node* start) {
+    fstream f1;
+    string line;
+    f1.open("playlists.txt", ios::in);
+    while (getline(f1, line)) {
+        add_node_file(start, line);
+    }
+    cout << "Playlist Added" << endl;
+    f1.close();
+}
 void count_nodes(struct node *first)
 {
     int i=0;
