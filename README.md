@@ -282,7 +282,7 @@ void search1(struct node* first) {
     cout << "\nEnter song To be Searched- ";
     scanf("%s", &song);
 
-    if (searchSongInBST(song)) {
+if (searchSongInBST(song)) {
         cout << "\n#Song Found in BST" << endl;
     }
     else {
@@ -333,76 +333,47 @@ void count_nodes(struct node *first)
     i++;
     cout<<"\nTotal songs-  "<<i-1<<endl;
 }
-struct node  *del_pos(struct node *pointer, int pos)
+void topelement()
 {
-        struct node *n1,*prev1,*temp;
-           prev1= ( struct node *)malloc(sizeof(node));
-           temp= (struct node *)malloc(sizeof(node));
-           int i=0;
-           if(pos==1)
-           {
-                temp=pointer;
-                delete_file(temp->song);
-                pointer=pointer->next;
-                pointer->prev = NULL;
-                free(temp);
-                 printf("\nThe list is updated\nUse the display function to check\n");
-                 return pointer;
-           }
-           while(i<pos-1)
-           {
-               prev1=pointer;
-               pointer=pointer->next;
-                i++;
-                }
-                if(pointer->next==NULL)
-            {
-            temp=pointer;
-            delete_file(temp->song);
-            prev1->next->prev=NULL;
-            prev1->next=NULL;
-            free(temp);
-             printf("\nThe list is updated\nUse the display function to check\n");
-          }
-          else
-            {
-            temp=pointer;
-            delete_file(temp->song);
-            prev1->next=temp->next;
-            temp->next->prev=prev1;
-            free(temp);
-             printf("\nThe list is updated\nUse the display function to check\n");
-            }
-
-}
-void search1(struct node *first)
-{
-    char song[100];
-    cout<<"\n\a\a\a\aEnter song To be Searched- ";
-    scanf("%s",&song);
-    int flag=0;
-
-while(first!=NULL)
+    top1=top;
+    if(top1==NULL)
     {
-        if(strcmp(first->song,song)==0)
-        {
-            cout<<"\n\a\a\a\a#Song Found"<<endl;
-            flag++;
-            break;
-        }
-        else
-        {
-            first=first->next;
-        }
+        printf("\n\a\a\a\a#NO last played tracks.\n");
+        return;
     }
-    if(flag==0)
-    {
-        cout<<"\n\a\a\a\a#Song Not found"<<endl;
+    cout<<"\n=>Last Played Song - "<<top->song<<endl;
+}
+
+void initializeFromFile(struct node* start) {
+    fstream f1;
+    string line;
+    f1.open("playlists.txt", ios::in);
+    while (getline(f1, line)) {
+        add_node_file(start, line);  // Add each song from the file to the linked list and BST
+    }
+    f1.close();
+}
+
+// Function to add a new playlist
+void addPlaylistToMap(const string& playlistName, const string& song) {
+    playlistMap[playlistName].push_back(song); // Add song to the playlist in the hash map
+    cout << "Song added to playlist: " << playlistName << endl;
+}
+
+void displayPlaylistFromMap(const string& playlistName) {
+    if (playlistMap.find(playlistName) != playlistMap.end()) {
+        cout << "Songs in Playlist '" << playlistName << "':" << endl;
+        for (const string& song : playlistMap[playlistName]) {
+            cout << song << endl;
+        }
+    } else {
+        cout << "Playlist not found!" << endl;
     }
 }
 
-void create()
-{
-    top = NULL;
+// Function to add a song to a playlist
+void addSongToPlaylist(const string& playlistName, const string& song) {
+    addPlaylistToMap(playlistName, song);
 }
+
 
