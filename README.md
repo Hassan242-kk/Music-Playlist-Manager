@@ -375,5 +375,71 @@ void displayPlaylistFromMap(const string& playlistName) {
 void addSongToPlaylist(const string& playlistName, const string& song) {
     addPlaylistToMap(playlistName, song);
 }
+int main() {
+    int choice;
+    struct node* start, * hold;
+    start = (struct node*)malloc(sizeof(struct node));
+    cout << "WELCOME" << endl;
+    cout << "\nPlease use '_' for space." << endl;
+    // cout << "\nEnter your playlist name-  ";
+    // cin.getline(start->song, 100);
+    start->next = NULL;
+    hold = start;
 
+create();
+
+    // Initialize from the file at the start
+initializeFromFile(start);
+
+do {
+        cout << "\n1. add song to playlist \n2. Delete Song\n3. Display Entered Playlist";
+        cout << "\n4. Total Songs\n5. Search Song\n6. Play Song\n7. Recently Played List";
+        cout << "\n8. Last Played\n9. Display Sorted Playlist (BST)\n10. Add From File";
+        cout << "\n12. Display Playlist from HashMap\n13. Exit" << endl;
+        cout << "\nEnter your choice- ";
+        cin >> choice;
+
+switch (choice) {
+           // case 1: add_node(start); break;
+           case 2:  {
+    string songToDelete;
+    cout << "Enter the name of the song to delete: ";
+    cin.ignore(); // Clear the buffer
+    getline(cin, songToDelete);
+    deleteSong(start, songToDelete);
+    break;
+}
+            case 3: printlist(start); break;
+            case 4: count_nodes(start); break;
+            case 5: search1(start); break;
+            case 6: play(start); break;
+            case 7: recent(); break;
+            case 8: topelement(); break;
+            case 9: sort(start->next);
+            printlist(start); break;
+            case 10: addplaylist(start); break;
+            case 1: {
+                string playlistName, song;
+                cout << "Enter Playlist Name: ";
+                cin.ignore();  // To clear the buffer before using getline
+                getline(cin, playlistName);
+                cout << "Enter Song Name: ";
+                getline(cin, song);
+                add_node(start,song);
+                addSongToPlaylist(playlistName, song);
+                break;
+            }
+            case 12: {
+                string playlistName;
+                cout << "Enter Playlist Name to Display: ";
+                cin.ignore();  // To clear the buffer before using getline
+                getline(cin, playlistName);
+                displayPlaylistFromMap(playlistName);
+                break;
+            }
+            case 13: exit(0);
+        }
+    } while (choice != 13);
+    return 0;
+}
 
