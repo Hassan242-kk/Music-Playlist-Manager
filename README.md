@@ -257,6 +257,26 @@ void printlist(struct node* first) {
         first = first->next;
     }
 }
+void display()
+{
+    top1 = top;
+    if (top1 == NULL)
+    {
+        printf("\n\a\a\a\a=>NO recently played tracks.\n");
+        return;
+    }
+    printf("\n\a\a\a\a#Recently played tracks-\n");
+    while (top1 != NULL)
+    {
+        printf("%s", top1->song);
+        printf("\n");
+        top1 = top1->next;
+    }
+ }
+
+void recent(){
+    display();
+}
 void count_nodes(struct node *first)
 {
     int i=0;
