@@ -109,19 +109,82 @@ void delete_file(char a[])
         }
     }
 
+void deleteSong(struct node* start, const string& songName) {
+    char songCStr[songName.size() + 1];
+    strcpy(songCStr, songName.c_str());
 
-void del_node(struct node *first)
-{
-    while((first->next)->next!=NULL)
-    {
-        first=first->next;
+    
+struct node* current = start;
+    struct node* previous = nullptr;
+    bool foundInList = false;
+
+while (current != nullptr) {
+        if (strcmp(current->song, songCStr) == 0) { // Found the song
+            foundInList = true;
+
+           
+ if (previous != nullptr) {
+                previous->next = current->next;
+            }
+            if (current->next != nullptr) {
+                current->next->prev = previous;
+            }
+
+            // Free memory
+ delete current;
+            break;
+        }
+        previous = current;
+        current = current->next;
     }
-    struct node *temp;
-    temp=(first->next)->next;
-    first->next=NULL;
-    free(temp);
-   cout<<"Deleted"<<endl;
+
+if (foundInList) {
+        cout << "Song '" << songName << "' deleted from playlist." << endl;
+    } else {
+        cout << "Song '" << songName << "' not found in playlist." << endl;
+    }
+
+    // 2. Delete from the file
+delete_file(songCStr);
+
+    
 }
+TreeNode* deleteFromBST(TreeNode* root, const char* song) {
+    if (root == nullptr) {
+        return nullptr;
+    }
+
+if (strcmp(song, root->song) < 0) {
+        root->left = deleteFromBST(root->left, song);
+    } else if (strcmp(song, root->song) > 0) {
+        root->right = deleteFromBST(root->right, song);
+    } else {
+        // Node to be deleted found
+        if (root->left == nullptr) {
+            TreeNode* temp = root->right;
+            delete root;
+            return temp;
+        } else if (root->right == nullptr) {
+            TreeNode* temp = root->left;
+            delete root;
+            return temp;
+        }
+
+        // Node with two children: Get the inorder successor
+TreeNode* temp = root->right;
+        while (temp->left != nullptr) {
+            temp = temp->left;
+        }
+
+        // Copy the inorder successor's content to this node
+strcpy(root->song, temp->song);
+
+        
+ root->right = deleteFromBST(root->right, temp->song);
+    }
+    return root;
+}
+
 void printlist(struct node *first)
 {
     cout<<"\nPlaylist Name- ";
