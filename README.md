@@ -184,18 +184,79 @@ strcpy(root->song, temp->song);
     }
     return root;
 }
-
-void printlist(struct node *first)
-{
-    cout<<"\nPlaylist Name- ";
-    while(first->next!=NULL)
-    {
-        cout<<first->song<<endl;
-        first=first->next;
+void add_node_file(struct node* first, string a) {
+    while (first->next != NULL) {
+        first = first->next;
     }
-    cout<<first->song<<endl;
+    first->next = (struct node*)malloc(sizeof(struct node));
+    first->prev = first;
+    first = first->next;
+    strcpy(first->song, a.c_str());
+    first->next = NULL;
+
+    // Add to the BST
+ root = insertBST(root, a.c_str());
 }
 
+// Functions for the binary search tree
+void displayInOrder(TreeNode* node) {
+    if (node == nullptr) return;
+    displayInOrder(node->left);
+    cout << node->song << endl;
+    displayInOrder(node->right);
+}
+bool searchBST(TreeNode* node, const char* song) {
+    if (node == nullptr) return false;
+    if (strcmp(node->song, song) == 0) return true;
+    if (strcmp(song, node->song) < 0) return searchBST(node->left, song);
+    return searchBST(node->right, song);
+}
+void sort(struct node*& head) {
+    if (head == NULL || head->next == NULL) {
+        return; // Nothing to sort if the list is empty or has only one element
+    }
+
+ bool swapped;
+    struct node* ptr1;
+    struct node* lptr = NULL; 
+
+ do {
+        swapped = false;
+        ptr1 = head;
+
+while (ptr1->next != lptr) {
+            if (strcmp(ptr1->song, ptr1->next->song) > 0) {
+                // Swap the song names
+                char temp[100];
+                strcpy(temp, ptr1->song);
+                strcpy(ptr1->song, ptr1->next->song);
+                strcpy(ptr1->next->song, temp);
+   swapped = true;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1; // Move the last pointer to the last sorted element
+    } while (swapped);
+}
+
+bool searchSongInBST(const char* song) {
+    return searchBST(root, song);
+}
+void create() {
+    top = NULL;
+}
+
+void printlist(struct node* first) {
+    if (first == NULL) {
+        cout << "Playlist is empty." << endl;
+        return;
+    }
+    cout << "Playlist Songs: " << endl;
+    while (first != NULL) {
+        cout << first->song << endl;
+        first = first->next;
+    }
+}
 void count_nodes(struct node *first)
 {
     int i=0;
