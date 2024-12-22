@@ -23,9 +23,9 @@ TreeNode(const char* songName) {
         left = right = nullptr;
     }
 };
-TreeNode* root = nullptr; // Root of the BST
+TreeNode* root = nullptr; 
 
-// HashMap to store playlists (key: playlist name, value: list of songs in that playlist)
+
 unordered_map<string, vector<string>> playlistMap;
 
 // Function to insert song into BST
@@ -48,35 +48,20 @@ void tofile(char a[])
     f1.close();
 }
 
-void add_node(struct node *first)
-    {
-    char a[100];
-    while(first->next!=NULL)
-    {
-        first=first->next;
+void add_node(struct node* first, const string& song) {
+    while (first->next != NULL) {
+        first = first->next;
     }
-    first->next=(struct node*)malloc(sizeof(struct node));
-    first->prev=first;
-    first=first->next;
-    cout<<"\n\a\a\a\aEnter Song name-  ";
-    scanf("%s",&a);
-    strcpy(first->song,a);
-    tofile(a);
-    first->next=NULL;
-    root = insertBST(root,a);
+    node* newNode = new node();
+    strncpy(newNode->song, song.c_str(), sizeof(newNode->song) - 1);
+    newNode->song[sizeof(newNode->song) - 1] = '\0';
+    newNode->next = NULL;
+    newNode->prev = first;
+    first->next = newNode;
+
+   root = insertBST(root, newNode->song);
 }
-void add_node_file(struct node *first,string a)
-    {
-    while(first->next!=NULL)
-    {
-        first=first->next;
-    }
-    first->next=(struct node*)malloc(sizeof(struct node));
-    first->prev=first;
-    first=first->next;
-    strcpy(first->song,a.c_str());
-    first->next=NULL;
-}
+
 
 void push(char data[])
 {
