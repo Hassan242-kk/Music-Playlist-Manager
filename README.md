@@ -3,7 +3,8 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<fstream>
-
+#include<unordered_map>
+#include<vector>
 using namespace std;
 
 struct node
@@ -22,6 +23,23 @@ TreeNode(const char* songName) {
         left = right = nullptr;
     }
 };
+TreeNode* root = nullptr; // Root of the BST
+
+// HashMap to store playlists (key: playlist name, value: list of songs in that playlist)
+unordered_map<string, vector<string>> playlistMap;
+
+// Function to insert song into BST
+TreeNode* insertBST(TreeNode* node, const char* song) {
+    if (node == nullptr) {
+        return new TreeNode(song);
+    }
+    if (strcmp(song, node->song) < 0) {
+        node->left = insertBST(node->left, song);
+    } else if (strcmp(song, node->song) > 0) {
+        node->right = insertBST(node->right, song);
+    }
+    return node;
+}
 void tofile(char a[])
 {
     fstream f1;
@@ -45,6 +63,7 @@ void add_node(struct node *first)
     strcpy(first->song,a);
     tofile(a);
     first->next=NULL;
+    root = insertBST(root,a);
 }
 void add_node_file(struct node *first,string a)
     {
@@ -58,6 +77,24 @@ void add_node_file(struct node *first,string a)
     strcpy(first->song,a.c_str());
     first->next=NULL;
 }
+
+void push(char data[])
+{
+    if (top == NULL)
+    {
+        top =(struct node *)malloc(sizeof(struct node));
+        top->next = NULL;
+        strcpy(top->song,data);
+    }
+    else if (strcmp(top->song,data)!=0)
+    {
+        temp =(struct node *)malloc(sizeof(struct node));
+        temp->next = top;
+        strcpy(temp->song,data);
+        top = temp;
+    }
+}
+
 void delete_file(char a[])
 {
     fstream f1,f2;
@@ -193,22 +230,5 @@ while(first!=NULL)
 void create()
 {
     top = NULL;
-}
-
-void push(char data[])
-{
-    if (top == NULL)
-    {
-        top =(struct node *)malloc(sizeof(struct node));
-        top->next = NULL;
-        strcpy(top->song,data);
-    }
-    else if (strcmp(top->song,data)!=0)
-    {
-        temp =(struct node *)malloc(sizeof(struct node));
-        temp->next = top;
-        strcpy(temp->song,data);
-        top = temp;
-    }
 }
 
